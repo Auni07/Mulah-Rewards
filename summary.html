@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mulah Loyalty Details - Page 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <div class="page-container">
+      <h1
+        class="logo-message text-5xl md:text-5xl font-bold text-[#f77f00] mb-8 mt-12 md:mt-20"
+      >
+        MULAH
+      </h1>
+      <div class="loyalty-points-display text-center mb-16" style="margin-top: 20px">
+        <p class="text-7xl md:text-8xl font-extrabold text-[#f77f00]">152</p>
+        <p class="text-xl md:text-2xl text-gray-700 font-semibold mt-2">
+          Your points
+        </p>
+      </div>
+
+      <h2 class="welcome-message text-2xl" style="margin-bottom: 30px">
+        Your Registered Details
+      </h2>
+
+      <div class="w-full max-w-md text-left space-y-4 mb-16">
+        <div class="flex justify-between items-center border-b pb-2">
+          <span class="text-gray-700 font-medium text-lg">Phone Number:</span>
+          <span id="displayPhoneNumber" class="text-gray-900 text-lg">N/A</span>
+        </div>
+        <div class="flex justify-between items-center border-b pb-2">
+          <span class="text-gray-700 font-medium text-lg">Name:</span>
+          <span id="displayName" class="text-gray-900 text-lg">N/A</span>
+        </div>
+        <div class="flex justify-between items-center border-b pb-2">
+          <span class="text-gray-700 font-medium text-lg">Birthday:</span>
+          <span id="displayBirthday" class="text-gray-900 text-lg">N/A</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 font-medium text-lg">Email:</span>
+          <span id="displayEmail" class="text-gray-900 text-lg">N/A</span>
+        </div>
+      </div>
+
+      <button
+        onclick="window.location.href='registration.html'"
+        class="w-11/12 md:w-5/6 btn-secondary"
+      >
+        Back to Home
+      </button>
+
+      <div class="flex-grow"></div>
+
+      <p class="text-sm md:text-base text-gray-500 mt-16 md:mt-24 mb-4">
+        Powered by
+        <a
+          href="https://www.mulahrewards.com"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >MulahRewards.com</a
+        >
+      </p>
+    </div>
+
+    <script>
+      window.onload = () => {
+        const userDataString = localStorage.getItem("userData");
+        if (userDataString) {
+          const userData = JSON.parse(userDataString);
+
+          document.getElementById("displayPhoneNumber").textContent =
+            userData.phoneNumber || "N/A";
+          document.getElementById("displayName").textContent =
+            userData.name || "N/A";
+          document.getElementById("displayBirthday").textContent =
+            userData.birthday || "N/A";
+          document.getElementById("displayEmail").textContent =
+            userData.email || "N/A";
+
+          // localStorage.removeItem('phoneNumber');
+          // localStorage.removeItem('userData');
+        } else {
+          const messageBox = document.createElement("div");
+          messageBox.className =
+            "fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50";
+          messageBox.innerHTML = `
+                    <div class="bg-white p-8 rounded-lg shadow-xl text-center">
+                        <p class="text-lg font-semibold text-gray-800 mb-4">No user data found. Please start from Page 1.</p>
+                        <button id="messageBoxOkBtn" class="bg-[#f77f00] text-white px-6 py-2 rounded-none hover:bg-[#e07200]">OK</button>
+                    </div>
+                `;
+          document.body.appendChild(messageBox);
+
+          document
+            .getElementById("messageBoxOkBtn")
+            .addEventListener("click", () => {
+              document.body.removeChild(messageBox);
+              window.location.href = "registration.html";
+            });
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mulah Loyalty - Page 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <div class="page-container">
+      <h1
+        class="logo-message text-5xl md:text-5xl font-bold text-[#f77f00] mb-8 mt-12 md:mt-20"
+      >
+        MULAH
+      </h1>
+
+      <h2 class="welcome-message" style="margin-bottom: 50px; margin-top: 40px">
+        Hello, <br />
+        Welcome !
+      </h2>
+
+      <p class="text-base md:text-lg text-[#f77f00] font-medium mb-10 md:mb-16">
+        Check Your Loyalty Points & Rewards
+      </p>
+
+      <div class="flex items-center justify-center mb-2 md:mb-4 phone-input-container">
+        <div class="relative inline-block text-left mr-2">
+          <select
+            id="countryCode"
+            class="block appearance-none w-auto bg-white border border-gray-300 hover:border-gray-400 px-4 py-3 pr-8 rounded-none shadow-sm leading-tight focus:outline-none focus:ring-2 focus:ring-[#f77f00] focus:border-transparent text-gray-700"
+          >
+            <option value="+60">+60</option>
+            <option value="+61">+61</option>
+            <option value="+62">+62</option>
+            <option value="+64">+63</option>
+            <option value="+65">+65</option>
+          </select>
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+          >
+            <svg
+              class="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9l4.95 4.95z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="relative flex-grow">
+          <input
+            type="tel"
+            id="phoneNumber"
+            placeholder="Enter your mobile number"
+            class="phone-input appearance-none w-full bg-white text-gray-700 border-b-2 border-gray-300 py-3 px-2 leading-tight focus:outline-none focus:border-[#f77f00] focus:ring-0 rounded-none"
+            pattern="[0-9]*"
+            inputmode="numeric"
+          />
+          <svg
+            class="w-6 h-6 text-green-500 absolute right-2 top-1/2 transform -translate-y-1/2 hidden"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            id="checkmark-icon"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <p
+        id="phoneError"
+        class="text-red-500 text-sm italic hidden mb-8 md:mb-12"
+      >
+        *Please insert a valid phone number.
+      </p>
+
+      <button id="checkLoyaltyBtn" class="w-11/12 md:w-5/6 btn-primary">
+        Check Loyalty Points
+      </button>
+
+      <div class="flex-grow"></div>
+
+      <p class="text-sm md:text-base text-gray-500 mt-16 md:mt-24 mb-4">
+        Powered by
+        <a
+          href="https://www.mulahrewards.com"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >MulahRewards.com</a
+        >
+      </p>
+    </div>
+
+    <script>
+      const countryCodeSelect = document.getElementById("countryCode");
+      const phoneNumberInput = document.getElementById("phoneNumber");
+      const checkmarkIcon = document.getElementById("checkmark-icon");
+      const checkLoyaltyBtn = document.getElementById("checkLoyaltyBtn");
+      const phoneError = document.getElementById("phoneError");
+
+      // Function to validate and proceed
+      checkLoyaltyBtn.addEventListener("click", () => {
+        const selectedCode = countryCodeSelect.value;
+        const enteredNumber = phoneNumberInput.value.trim();
+        const fullPhoneNumber = selectedCode + enteredNumber;
+
+        const isNumeric = /^\d+$/.test(enteredNumber);
+        const isLengthValid =
+          enteredNumber.length >= 7 && enteredNumber.length <= 11;
+
+        if (isNumeric && isLengthValid) {
+          phoneError.classList.add("hidden");
+          localStorage.setItem("phoneNumber", fullPhoneNumber);
+          window.location.href = "registration.html";
+        } else {
+          if (!isNumeric) {
+            phoneError.textContent =
+              "*Please enter only numerical digits for your phone number.";
+          } else if (!isLengthValid) {
+            phoneError.textContent =
+              "*Please insert a phone number between 7 and 11 digits long.";
+          }
+          phoneError.classList.remove("hidden");
+          checkmarkIcon.classList.add("hidden");
+        }
+      });
+
+      // Optional: Show/hide checkmark on input
+      phoneNumberInput.addEventListener("input", function () {
+        if (this.value.trim().length > 0 && /^\d+$/.test(this.value.trim())) {
+          checkmarkIcon.classList.remove("hidden");
+        } else {
+          checkmarkIcon.classList.add("hidden");
+        }
+        phoneError.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>
